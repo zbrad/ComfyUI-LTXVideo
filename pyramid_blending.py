@@ -10,9 +10,15 @@ from kornia.geometry.transform.pyramid import (
     build_pyramid,
     find_next_powerof_two,
     is_powerof_two,
-    pad,
 )
 from torch import Tensor
+
+# kornia removed `pad` from kornia.geometry.transform.pyramid in the version
+# pinned in this venv (0.8.3) -- both call sites below use it exactly like
+# torch.nn.functional.pad(input, pad, mode), which is what kornia's own `pad`
+# wrapped, so alias it directly instead of pinning kornia to an older/newer
+# version for this one helper.
+pad = F.pad
 
 from .nodes_registry import comfy_node
 
