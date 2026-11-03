@@ -34,7 +34,7 @@ def _pad_for_laplacian(image: torch.Tensor) -> tuple[torch.Tensor, tuple[int, in
     if not (is_powerof_two(h) and is_powerof_two(w)):
         pad_right = find_next_powerof_two(w) - w
         pad_down = find_next_powerof_two(h) - h
-        image = pad(image, (0, pad_right, 0, pad_down), "reflect")
+        image = F.pad(image, (0, pad_right, 0, pad_down), mode="reflect")
     return image, (pad_right, pad_down)
 
 
@@ -47,7 +47,7 @@ def _gaussian_pyramid(
     h, w = images.shape[2], images.shape[3]
     if not (is_powerof_two(w) and is_powerof_two(h)):
         padding = (0, find_next_powerof_two(w) - w, 0, find_next_powerof_two(h) - h)
-        images = pad(images, padding, border_type)
+        images = F.pad(images, padding, mode=border_type)
     return build_pyramid(images, max_level, border_type, align_corners)
 
 
